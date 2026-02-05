@@ -1,0 +1,103 @@
+{% include "Studio/header.html" %}
+{% load static %}
+<section class="site-section" id="section-contact">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <h2 class="mb-5 heading">Work Details</h2>
+          <form id="workForm" action="{% url 'work_process' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="row form-group">
+              <div class="col-md-12">
+                <label for="categoryid">Work Category</label> 
+                <select name="categoryid" id="categoryid" class="form-control">
+                  <option value="">Select Category</option>
+                  {% for c in category %}
+                  <option value="{{c.categoryid}}">{{c.categoryname}}</option>
+                  {% endfor %}
+                </select>
+                <small id="categoryError" class="text-danger"></small>
+              </div>
+            </div>
+
+            <div class="row form-group">
+              <div class="col-md-12">
+                <label for="workname">Work Name</label> 
+                <input type="text" name="workname" id="workname" class="form-control">
+                <small id="worknameError" class="text-danger"></small>
+              </div>
+            </div>
+
+            <div class="row form-group mb-5">
+              <div class="col-md-12">
+                <label for="Description">Work Description</label> 
+                <textarea name="Description" id="Description" cols="30" rows="7" class="form-control"></textarea>
+                <small id="descriptionError" class="text-danger"></small>
+              </div>
+            </div>
+            <div class="row form-group">
+              <div class="col-md-12">
+                <label for="workname">Work Image</label> 
+                <input type="file" name="workimg" id="workimg" class="form-control">
+                <small id="worknameError" class="text-danger"></small>
+              </div>
+            </div>
+            <div class="row form-group">
+              <div class="col-md-12">
+                <input type="submit" value="Submit" class="btn btn-primary btn-md">
+              </form>
+              
+              <a href="{% url 'viewworkdetails' %}" class="btn btn-primary btn-md">View</a>
+            </div>   
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<script>
+  document.getElementById('workForm').addEventListener('submit', function (e) {
+    let valid = true;
+
+    const category = document.getElementById('categoryid').value;
+    const workName = document.getElementById('workname').value.trim();
+    const description = document.getElementById('Description').value.trim();
+
+    // Reset previous error messages
+    document.getElementById('categoryError').textContent = '';
+    document.getElementById('worknameError').textContent = '';
+    document.getElementById('descriptionError').textContent = '';
+
+    // Category validation
+    if (!category) {
+      document.getElementById('categoryError').textContent = 'Please select a category.';
+      valid = false;
+    }
+
+    // Work Name validation
+    if (!workName) {
+      document.getElementById('worknameError').textContent = 'Please enter a work name.';
+      valid = false;
+    } else if (workName.length < 3) {
+      document.getElementById('worknameError').textContent = 'Work name must be at least 3 characters long.';
+      valid = false;
+    }
+
+    // Description validation
+    if (!description) {
+      document.getElementById('descriptionError').textContent = 'Please provide a work description.';
+      valid = false;
+    } else if (description.length < 10) {
+      document.getElementById('descriptionError').textContent = 'Description must be at least 10 characters long.';
+      valid = false;
+    }
+
+    // Prevent form submission if validation fails
+    if (!valid) {
+      e.preventDefault();
+    }
+  });
+</script>
+
+{% include "Studio/footer.html" %}

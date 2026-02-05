@@ -1,0 +1,104 @@
+{% load static %}
+{% include "Admin/header.html" %}
+<style>
+  .btn-danger {
+    background-color: #dc3545 !important;  /* Red background color */
+    color: white !important;  /* White text */
+    border: none;  /* Remove border */
+  }
+
+  /* Added styles to create spacing and margin adjustments */
+  .content-wrapper {
+    margin-left: 250px;  /* Adjust to the width of your sidebar */
+    padding: 20px;
+  }
+
+  .form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+
+  .card {
+    width: 100%;  /* Allow the card to be responsive */
+    max-width: 700px;  /* Limit the card width */
+  }
+  .footer{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }
+</style>
+<script src="{% static 'jquery-3.7.1.min.js' %}"></script>
+<script>
+    $(document).ready(function() {
+       //alert('haii');
+     $.ajaxSetup({
+        headers: { "X-CSRFToken": '{{csrf_token}}' }
+      });
+      $('#districtid').change(function () {
+        var districtid = $(this).val();
+        //alert(districtid);
+        $.ajax({
+          type: "POST",
+          url: '{% url "filllocation" %}',
+          data: { did: districtid },
+          dataType: "json",
+          success: function (data) {
+            $('#locations').empty();
+              //alert("test");
+            s = 1;
+$.each(data, function (key, val) {
+    var id = val.locationid;
+    var editurl='{% url "editlocation" 0 %}'.replace('0', id);
+    var deleteurl = '{% url "deletelocation" 0 %}'.replace('0', id);
+    var row = '<tr> <td>' + s++ + '</td>' +
+              '<td>' + val.locationname + '</td>' +
+              '<td><button class="btn btn-primary" onclick="window.location.href=\'' + editurl + '\'">Edit</button></td>' +
+              '<td><button class="btn btn-danger" onclick="window.location.href=\'' + deleteurl + '\'">Delete</button></td>' +
+            '</tr>';
+    $('#locations').append(row);
+});
+          }
+        });
+      });
+    });
+</script>
+
+<main id="main" class="main content-wrapper">
+    <div class="form-container">
+        <div class="col-lg-8 col-md-10">
+            <div class="card shadow" style="width: 2000px;">
+                <div class="card-body" >
+                    <h5 class="card-title text-center">Location Details</h5>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped text-center">
+                            <select name="districtid" id="districtid" class="form-control">
+                                <option value="">Select District</option>
+                                {% for d in districts %}
+                                <option value="{{d.districtid}}">{{d.districtname}}</option>
+                                {% endfor %}
+                            </select><br>
+                            <thead class="table-primary">
+                                <tr>
+                                    <th scope="col">Sl.No</th>
+                                    <th scope="col">Location Name</th>
+                                    <th scope="col">Edit</th>
+                                    <th scope="col">Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody id="locations">
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</div>
+<div class="footer">
+{% include "Admin/footer.html" %}
+</div>

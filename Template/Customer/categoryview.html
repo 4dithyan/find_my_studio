@@ -1,0 +1,40 @@
+{% include "Customer/header.html" %}
+{% load static %}
+
+<!-- team_area -->
+<div class="photography_skill_area">
+    <div class="container">
+        <div class="section_title text-center">
+            <h3>Categories</h3>
+            <div class="team_area">
+                <div class="container">
+                    <div class="border_bottom">
+                        <div class="row">
+                            {% for c in category %}
+                            <div class="col-xl-4 col-lg-4 col-md-6">
+                                <div class="single_team">
+                                    <div class="team_thumb">
+                                        <!-- Add a link here to navigate to the works page for this category -->
+                                            <img src="{{c.categoryimage.url}}" style="width: 300px;height: 400px;" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="team_info text-center">
+                                        <h3>{{c.categoryname}}</h3>
+                                        <a href="{% url 'work' studioid=studio.studioid categoryid=c.categoryid %}">
+                                            <button type="submit" class="btn btn-primary">View Works</button>
+                                            <a href="{% url 'package' studioid=studio.studioid categoryid=c.categoryid %}">
+                                                <button type="submit" class="btn btn-primary" >View Package</button>
+                                        </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /team_area -->
+
+{% include "Customer/footer.html" %}

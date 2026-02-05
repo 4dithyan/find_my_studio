@@ -1,0 +1,75 @@
+<!-- /*
+* Template Name: Snap
+* Template Author: Untree.co
+* Tempalte URI: https://untree.co/
+* License: https://creativecommons.org/licenses/by/3.0/
+*/ -->
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="author" content="Untree.co">
+  <link rel="shortcut icon" href="{% static 'Studio/favicon.png' %}">
+
+  <meta name="description" content="" />
+  <meta name="keywords" content="" />
+  
+
+  <link href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600, 700,900|Oswald:400,700" rel="stylesheet">
+
+
+  <link rel="stylesheet" href="{% static 'Studio/fonts/icomoon/style.css' %}">
+
+  <link rel="stylesheet" href="{% static 'Studio/css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'Studio/css/magnific-popup.css' %}">
+  <link rel="stylesheet" href="{% static 'Studio/css/jquery-ui.css' %}">
+  <link rel="stylesheet" href="{% static 'Studio/css/owl.carousel.min.css' %}">
+  <link rel="stylesheet" href="{% static 'Studio/css/owl.theme.default.min.css' %}">
+  <link rel="stylesheet" href="{% static 'Studio/fonts/flaticon/font/flaticon.css' %}">
+
+  <link rel="stylesheet" href="{% static 'Studio/css/aos.css' %}">
+  <link rel="stylesheet" href="{% static 'Studio/css/fancybox.min.css' %}">
+
+  <link rel="stylesheet" href="{% static 'Studio/css/style.css' %}">
+  <title>Snap &mdash; Free Photography Website Template by Untree.co</title>
+
+
+</head>
+<body data-spy="scroll" data-target=".site-navbar-target" data-offset="200">
+
+
+  <div class="site-wrap">
+
+    <div class="site-mobile-menu site-navbar-target">
+      <div class="site-mobile-menu-header">
+        <div class="site-mobile-menu-close mt-3">
+          <span class="icon-close2 js-menu-toggle"></span>
+        </div>
+      </div>
+      <div class="site-mobile-menu-body"></div>
+    </div>
+
+    <header class="header-bar d-flex d-lg-block align-items-center site-navbar-target" data-aos="fade-right">
+      <div class="site-logo">
+        <a href="studiohome.html">Find My Studio</a>
+      </div>
+
+      <div class="d-inline-block d-lg-none ml-md-0 ml-auto py-3" style="position: relative; top: 3px;"><a href="#" class="site-menu-toggle js-menu-toggle "><span class="icon-menu h3"></span></a></div>
+
+      <div class="main-menu">
+        <ul class="js-clone-nav">
+          <li><a href="{% url 'studiohome' %}" class="nav-link">Home</a></li>
+          <li><a href="{% url 'workdetails' %}" class="nav-link">Work Details</a></li>
+          <li><a href="{% url 'workimage' %}" class="nav-link">Work Image</a></li>
+          <li><a href="{% url 'package' %}" class="nav-link">Package</a></li>
+          <li><a href="{% url 'requestview' %}" class="nav-link">Requests</a></li>
+          <li><a href="{% url 'viewpayment' %}" class="nav-link">Payment View</a></li>
+          <li><a href="{% url 'logout' %}" class="nav-link">Logout</a></li>
+
+        </ul>
+        
+      </div>
+    </header>

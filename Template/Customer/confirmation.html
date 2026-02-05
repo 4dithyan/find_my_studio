@@ -1,0 +1,187 @@
+{% load static %}
+{% include 'Customer/header.html' %}
+<br>
+<section class="blog_area section-padding">
+    <div class="container">
+        <div class="row">
+            <!-- Loop through all requests -->
+            {% for request in r %}
+            <div class="col-lg-4 col-md-6 mb-4 d-flex"> <!-- 3 cards per row, responsive -->
+                <div class="blog_item flex-grow-1">
+                    <!-- Top Row: Request Number and Status -->
+                    <div class="blog_item_header d-flex justify-content-between align-items-center">
+                        <span class="badge badge-primary badge-lg">Request #{{ forloop.counter }}</span> <!-- Request Number -->
+                        <span class="badge badge-lg 
+                            {% if request.status == 'Booked' %}badge-info
+                            {% elif request.status == 'Accepted' %}badge-warning
+                            {% elif request.status == 'Rejected' %}badge-danger
+                            {% elif request.status == 'Paid' %}badge-success
+                            {% else %}badge-secondary{% endif %}"> 
+                            {{ request.status }}
+                        </span>
+                    </div>
+
+                    <!-- Card Body -->
+                    <div class="blog_details">
+                        <!-- Studio Name and Location -->
+                        <div class="studio-info d-flex justify-content-between">
+                            <p><strong>Studio:</strong> {{ request.studio_name }}, {{ request.studio_location }}</p>
+                        </div>
+
+                        <!-- Studio Contact -->
+                        <div class="studio-info d-flex justify-content-between">
+                            <p><strong>Contact:</strong> {{ request.studio_contact }}</p>
+                        </div>
+
+                        <!-- Package Name -->
+                        <div class="studio-info d-flex justify-content-between">
+                            <p><strong>Package:</strong> {{ request.packageid.packagename }}</p>
+                        </div>
+
+                        <!-- Description -->
+                        <p><strong>Description:</strong> {{ request.description }}</p>
+                        
+                        <!-- Amount, Additional Amount, and Total Amount -->
+                        <div class="d-flex justify-content-between">
+                            <p><strong>Amount:</strong> ${{ request.packageid.amount|floatformat:2 }}</p>
+                            <p><strong>Additional Amount:</strong> ${{ request.aamount|floatformat:2 }}</p>
+                            <p><strong>Total Amount:</strong> ${{ request.total_amount|floatformat:2 }}</p>
+                        </div>
+
+                        <!-- Buttons: Payment or Review -->
+                        <div class="text-center">
+                            {% if request.status == 'Accepted' %}
+                            <a href="{% url 'payment' request.requestid %}?iamount={{ request.initial_payment|floatformat:2 }}">
+                                <button type="button" class="btn btn-success mt-3">
+                                    Make Initial Payment ${{ request.initial_payment|floatformat:2 }}
+                                </button>
+                            </a>
+                            {% elif request.status == 'Paid' %}
+                            <a href="{% url 'feedback' request.requestid %}">
+                                <button type="button" class="btn btn-info mt-3">
+                                    Add feedback
+                                </button>
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<style>
+    .blog_item {
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        height: 500px;
+        transition: transform 0.3s ease;
+        overflow: hidden;
+    }
+
+    .blog_item:hover {
+        transform: translateY(-5px);
+    }
+
+    .blog_item_header {
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .badge-primary {
+        background-color: #007bff;
+        color: white;
+        padding: 6px 12px;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+
+    .badge-lg {
+        font-size: 16px;
+        padding: 6px 12px;
+    }
+
+    .badge-info {
+        background-color: blue;
+    }
+
+    .badge-warning {
+        background-color: yellow;
+        color: black;
+    }
+
+    .badge-danger {
+        background-color: red;
+    }
+
+    .badge-success {
+        background-color: green;
+    }
+
+    .badge-secondary {
+        background-color: #6c757d;
+    }
+
+    .blog_details {
+        padding: 10px 0;
+        height: 100%;
+    }
+
+    .studio-info {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 6px;
+    }
+
+    .studio-info p {
+        margin: 0;
+    }
+
+    .d-flex {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .btn-success, .btn-primary {
+        width: 100%;
+        padding: 10px;
+        font-size: 14px;
+        border-radius: 5px;
+    }
+
+    .btn-success:hover {
+        background-color: #218838;
+        border-color: #1e7e34;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #004085;
+    }
+
+    .col-lg-4, .col-md-6 {
+        padding: 0;
+    }
+
+    .footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+    }
+</style>
+
+<div class="footer">
+    {% include 'Customer/footer.html' %}
+</div>

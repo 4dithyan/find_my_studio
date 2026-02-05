@@ -1,0 +1,276 @@
+{% include "Guest/header.html" %}
+{% load static %}
+
+<script src="{% static 'jquery-3.7.1.min.js' %}"></script>
+<script>
+    $(document).ready(function() {
+        $.ajaxSetup({
+            headers: { "X-CSRFToken": '{{csrf_token}}' }
+        });
+
+        $('#district').change(function () {
+            var districtid = $(this).val();
+            $.ajax({
+                type: "POST",
+                url: '{% url "filllocations" %}',
+                data: { did: districtid },
+                dataType: "json",
+                success: function (data) {
+                    $('#location').empty();
+                    var row = $('<option />');
+                    row.val(0);
+                    row.text('--Select location--');
+                    $('#location').append(row);
+
+                    $.each(data, function (key, val) {
+                        var row = $('<option />');
+                        row.val(val.locationid);
+                        row.text(val.locationname);
+                        $('#location').append(row);
+                    });
+                }
+            });
+        });
+
+        // Form validation
+        $('form').submit(function(e) {
+            var isValid = true;
+
+            // Clear previous error messages
+            $('.error').remove();
+
+            // Validate Name
+            var name = $('#name').val();
+            if (name.trim() === "") {
+                $('#name').after('<span class="error">Name is required</span>');
+                isValid = false;
+            }
+
+            // Validate Address
+            var address = $('#address').val();
+            if (address.trim() === "") {
+                $('#address').after('<span class="error">Address is required</span>');
+                isValid = false;
+            }
+
+            // Validate District
+            var district = $('#district').val();
+            if (district === "") {
+                $('#district').after('<span class="error">District is required</span>');
+                isValid = false;
+            }
+
+            // Validate Location
+            var location = $('#location').val();
+            if (location === "") {
+                $('#location').after('<span class="error">Location is required</span>');
+                isValid = false;
+            }
+
+            // Validate Pincode (Must be 6 digits)
+            var pincode = $('#pincode').val();
+            var pincodePattern = /^[0-9]{6}$/;
+            if (!pincode.match(pincodePattern)) {
+                $('#pincode').after('<span class="error">Enter a valid 6-digit pincode</span>');
+                isValid = false;
+            }
+
+            // Validate Landmark
+            var landmark = $('#landamrk').val();
+            if (landmark.trim() === "") {
+                $('#landamrk').after('<span class="error">Landmark is required</span>');
+                isValid = false;
+            }
+
+            // Validate Email
+            var email = $('#email').val();
+            var emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            if (!email.match(emailPattern)) {
+                $('#email').after('<span class="error">Enter a valid email address</span>');
+                isValid = false;
+            }
+
+            // Validate Phone Number
+            var phone = $('#phone').val();
+            var phonePattern = /^[0-9]{10}$/;
+            if (!phone.match(phonePattern)) {
+                $('#phone').after('<span class="error">Enter a valid 10-digit phone number</span>');
+                isValid = false;
+            }
+
+            // Validate Username
+            var username = $('#username').val();
+            if (username.trim() === "") {
+                $('#username').after('<span class="error">Username is required</span>');
+                isValid = false;
+            }
+
+            // Validate Password
+            var password = $('#password').val();
+            if (password.trim() === "") {
+                $('#password').after('<span class="error">Password is required</span>');
+                isValid = false;
+            }
+
+            // Validate ID Proof (file type)
+            var idProof = $('#idproof').val();
+            if (idProof === "") {
+                $('#idproof').after('<span class="error">ID Proof is required</span>');
+                isValid = false;
+            }
+
+            // Validate Studio Image (file type)
+            var studioImage = $('#simage').val();
+            if (studioImage === "") {
+                $('#simage').after('<span class="error">Studio image is required</span>');
+                isValid = false;
+            }
+
+            // Prevent form submission if invalid
+            if (!isValid) {
+                e.preventDefault();
+            }
+        });
+    });
+</script>
+
+<!-- ================ contact section start ================= -->
+<section class="contact-section">
+    <div class="container">
+        <div class="d-none d-sm-block mb-5 pb-4">
+            <script>
+                function initMap() {
+                    var uluru = {
+                        lat: -25.363,
+                        lng: 131.044
+                    };
+                    var grayStyles = [{
+                            featureType: "all",
+                            stylers: [{
+                                    saturation: -90
+                                },
+                                {
+                                    lightness: 50
+                                }
+                            ]
+                        },
+                        {
+                            elementType: 'labels.text.fill',
+                            stylers: [{
+                                color: '#ccdee9'
+                            }]
+                        }
+                    ];
+                    var map = new google.maps.Map(document.getElementById('map'), {
+                        center: {
+                            lat: -31.197,
+                            lng: 150.744
+                        },
+                        zoom: 9,
+                        styles: grayStyles,
+                        scrollwheel: false
+                    });
+                }
+            </script>
+            <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDpfS1oRGreGSBU5HHjMmQ3o5NLw7VdJ6I&amp;callback=initMap"></script>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <h2 class="contact-title">Studio Registration</h2>
+            </div>
+            <div class="col-lg-8">
+                <form class="form-contact contact_form" action="{% url 'studioreg_process' %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Name</label>
+                                <input class="form-control valid" name="name" id="name" type="text" placeholder="Enter your name" required pattern="[A-Za-z\s]{3,50}">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Address</label>
+                                <input class="form-control valid" name="address" id="address" type="text" placeholder="Enter your address" required>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>District</label>
+                                <select name="district" id="district" class="form-control valid" required>
+                                    <option value="">--Select District--</option>
+                                    {% for d in district %}
+                                    <option value="{{d.districtid}}">{{d.districtname}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Location</label>
+                                <select name="location" id="location" class="form-control valid" required>
+                                    <option value="">--Select Location--</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Pincode</label>
+                                <input class="form-control valid" name="pincode" id="pincode" type="text" placeholder="Enter your pincode" required pattern="\d{6}">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Landmark</label>
+                                <input class="form-control valid" name="landmark" id="landmark" type="text" placeholder="Enter your landmark" required>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input class="form-control valid" name="email" id="email" type="email" placeholder="Enter your email" required>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Phone Number</label>
+                                <input class="form-control valid" name="phonenumber" id="phone" type="text" placeholder="Enter your phone number" required pattern="\d{10}">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Username</label>
+                                <input class="form-control valid" name="username" id="username" type="text" placeholder="Enter username" required pattern="[A-Za-z0-9]{4,20}">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>Password</label>
+                                <input class="form-control valid" name="password" id="password" type="password" placeholder="Enter password" required minlength="6">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>ID Proof</label>
+                                <input class="form-control" name="idproof" id="idproof" type="file" accept=".jpg, .jpeg, .png, .pdf" required>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>Studio Image</label>
+                                <input class="form-control" name="simage" id="simage" type="file" accept=".jpg, .jpeg, .png" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group mt-3">
+                        <button type="submit" class="button button-contactForm boxed-btn">Register</button>
+                    </div>
+                </form>
+                
+            </div>
+        </div>
+    </div>
+</section>
+ {% include "Guest/footer.html" %}
+

@@ -1,0 +1,54 @@
+{% include "Admin/header.html" %}
+{% load static %}
+<div id="layoutSidenav_content">
+    <main>
+        <br><br><br>
+        <div class="container-fluid px-4">
+            <h3 class="mt-4">Category Registration</h3>
+            <br>
+            <div class="row">
+                <div class="col-8">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <form id="categoryForm" action="{% url 'category_process' %}" method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+
+                                <div class="form-group">
+                                    <label for="categoryname">Category Name:</label>
+                                    <input type="text" id="categoryname" name="categoryname" class="form-control" required>
+                                </div>
+                                <br>
+                                <div class="form-group">
+                                    <label for="categoryimage">Category Image:</label>
+                                    <input type="file" id="categoryimage" name="categoryimage" class="form-control" accept="image/*" required>
+                                </div>
+                                <br>
+                                <button type="submit" class="btn btn-primary">Add</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    {% include "Admin/footer.html" %}
+</div>
+
+<script>
+    document.getElementById('categoryForm').addEventListener('submit', function(event) {
+        const categoryName = document.getElementById('categoryname').value.trim();
+        const categoryImage = document.getElementById('categoryimage').value.trim();
+
+        if (!categoryName) {
+            alert('Please enter a Category Name.');
+            event.preventDefault();
+            return;
+        }
+
+        if (!categoryImage) {
+            alert('Please upload a Category Image.');
+            event.preventDefault();
+            return;
+        }
+    });
+</script>

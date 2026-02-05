@@ -1,0 +1,44 @@
+{% include "Admin/header.html" %}
+{% load static %}
+<div id="layoutSidenav_content">
+    <main>
+        <div class="container-fluid px-4">
+            <br> <br> <br>
+            <h3>District Registration</h3>
+            <br>
+            <div class="row">
+                <div class="col-8">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <form id="districtForm" action="{% url 'district_process' %}" method="post">
+                                {% csrf_token %}
+
+                                <div class="form-group">
+                                    <label for="districtname">District Name:</label>
+                                    <input type="text" id="districtname" name="districtname" class="form-control" required>
+                                </div>
+                                <br>
+                                <button type="submit" class="btn btn-primary">Add</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    {% include "Admin/footer.html" %}
+</div>
+
+<script>
+    document.getElementById('districtForm').addEventListener('submit', function(event) {
+        const districtName = document.getElementById('districtname').value.trim();
+
+        if (!districtName) {
+            alert('Please enter a District Name.');
+            event.preventDefault();
+        } else if (!/^[a-zA-Z\s]+$/.test(districtName)) {
+            alert('District Name should only contain letters and spaces.');
+            event.preventDefault();
+        }
+    });
+</script>

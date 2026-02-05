@@ -1,0 +1,96 @@
+{% include "Studio/header.html" %}
+{% load static %}
+<section class="site-section" id="section-contact">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <h2 class="mb-5 heading">Work Images</h2>
+
+          <form id="workImageForm" action="{% url 'workimage_process' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="row form-group">
+              <div class="col-md-12">
+                <label for="workid">Work Name</label> 
+                <select name="workid" id="workid" class="form-control">
+                  <option value="">Select work</option>
+                  {% for w in work %}
+                  <option value="{{w.workid}}">{{w.workname}}</option>
+                  {% endfor %}
+                </select>
+                <small id="workError" class="text-danger"></small>
+              </div>
+            </div>
+
+            <!-- Image Fields -->
+            {% for i in "123456"|make_list %}
+            <div class="row form-group">
+              <div class="col-md-12">
+                <label for="image{{i}}">Image {{i}}</label> 
+                <input type="file" name="image{{i}}" id="image{{i}}" class="form-control image-upload">
+                <small class="text-danger" id="imageError{{i}}"></small>
+              </div>
+            </div>
+            {% endfor %}
+
+            <!-- Submit and View Buttons -->
+            <div class="row form-group">
+              <div class="col-md-12">
+                <input type="submit" value="Submit" class="btn btn-primary btn-md">
+                <a href="{% url 'work_image_view' %}" class="btn btn-primary btn-md">View</a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<script>
+  document.getElementById('workImageForm').addEventListener('submit', function(e) {
+    let valid = true;
+
+    const workId = document.getElementById('workid').value;
+    const imageUploads = document.querySelectorAll('.image-upload');
+    let hasImage = false;
+
+    // Reset previous error messages
+    document.getElementById('workError').textContent = '';
+
+    // Work Name validation
+    if (!workId) {
+      document.getElementById('workError').textContent = 'Please select a work name.';
+      valid = false;
+    }
+
+    // Image Validation
+    imageUploads.forEach((input, index) => {
+      const file = input.files[0];
+      const imageError = document.getElementById(`imageError${index + 1}`);
+
+      imageError.textContent = '';
+
+      if (file) {
+        hasImage = true;
+
+        // Check file type
+        const validExtensions = ['image/jpeg', 'image/png', 'image/jpg'];
+        if (!validExtensions.includes(file.type)) {
+          imageError.textContent = 'Invalid file type. Only .jpg, .jpeg, and .png allowed.';
+          valid = false;
+        }
+      }
+    });
+
+    if (!hasImage) {
+      document.getElementById('imageError1').textContent = 'Please upload at least one image.';
+      valid = false;
+    }
+
+    // Prevent form submission if validation fails
+    if (!valid) {
+      e.preventDefault();
+    }
+  });
+</script>
+{% include 'Studio/footer.html' %}

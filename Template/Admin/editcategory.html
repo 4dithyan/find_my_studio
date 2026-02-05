@@ -1,0 +1,39 @@
+{% include "Admin/header.html" %}
+<div class="d-flex justify-content-center align-items-center vh-100">
+    <div class="col-lg-4 col-md-6">
+        <div class="card shadow">
+            <div class="card-body">
+                <h5 class="card-title text-center">Category Edit</h5>
+
+               
+                <form class="row g-3" action="{% url 'editcategory' c.categoryid %}" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="col-12">
+                        <label for="districtName" class="form-label">Category Name</label>
+                        <input type="text" class="form-control" id="districtName" name="categoryname" placeholder="Enter event name" required value="{{ c.categoryname }}">
+                    </div>
+                    <div class="col-12 text-center">
+                        {% if c.categoryimage %}
+                            <img src="{{ c.categoryimage.url }}" alt="event Image" class="img-thumbnail" style="max-width: 200px;">
+                        {% else %}
+                            <p>No Image Available</p>
+                        {% endif %}
+                    </div>
+
+                    <!-- Upload New Image -->
+                    <div class="col-12">
+                        <label for="categoryimage" class="form-label">Upload New Event Image</label>
+                        <input type="file" class="form-control" id="categoryimage" name="categoryimage">
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="reset" class="btn btn-secondary">Cancel</button>
+                    </div>
+                    {{error}}
+                </form>
+                
+            </div>
+        </div>
+    </div>
+</div>
+{% include "Admin/footer.html" %}

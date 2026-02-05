@@ -1,0 +1,113 @@
+{% include "Studio/header.html" %}
+{% load static %}
+<section class="site-section" id="section-contact">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-8">
+          <h2 class="mb-5 heading">Package</h2>
+
+          <form id="packageForm" action="{% url 'package_process' %}" method="post">
+            {% csrf_token %}
+
+            <div class="row form-group">
+              <div class="col-md-12">
+                <label for="categoryid">Work Category</label> 
+                <select name="categoryid" id="categoryid" class="form-control">
+                  <option value="">Select Category</option>
+                  {% for c in category %}
+                  <option value="{{c.categoryid}}">{{c.categoryname}}</option>
+                  {% endfor %}
+                </select>
+                <small id="categoryError" class="text-danger"></small>
+              </div>
+            </div>
+
+            <div class="row form-group">
+              <div class="col-md-12">
+                <label for="packagename">Package Name</label> 
+                <input type="text" name="packagename" id="packagename" class="form-control">
+                <small id="packageNameError" class="text-danger"></small>
+              </div>
+            </div>
+
+            <div class="row form-group mb-5">
+              <div class="col-md-12">
+                <label for="Description">Package Description</label> 
+                <textarea name="Description" id="Description" cols="30" rows="7" class="form-control"></textarea>
+                <small id="descriptionError" class="text-danger"></small>
+              </div>
+            </div>
+
+            <div class="row form-group">
+              <div class="col-md-12">
+                <label for="amount">Amount</label> 
+                <input type="number" name="amount" id="amount" class="form-control">
+                <small id="amountError" class="text-danger"></small>
+              </div>
+            </div>
+
+            <div class="row form-group">
+              <div class="col-md-12">
+                <input type="submit" value="Submit" class="btn btn-primary btn-md">
+                <a href="{% url 'package_details_view' %}" class="btn btn-primary btn-md">View</a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+</section>
+
+<script>
+  document.getElementById('packageForm').addEventListener('submit', function(e) {
+    let valid = true;
+
+    const category = document.getElementById('categoryid').value;
+    const packageName = document.getElementById('packagename').value.trim();
+    const description = document.getElementById('Description').value.trim();
+    const amount = document.getElementById('amount').value.trim();
+
+    // Reset previous error messages
+    document.getElementById('categoryError').textContent = '';
+    document.getElementById('packageNameError').textContent = '';
+    document.getElementById('descriptionError').textContent = '';
+    document.getElementById('amountError').textContent = '';
+
+    // Category validation
+    if (!category) {
+      document.getElementById('categoryError').textContent = 'Please select a work category.';
+      valid = false;
+    }
+
+    // Package Name validation
+    if (!packageName) {
+      document.getElementById('packageNameError').textContent = 'Please enter a package name.';
+      valid = false;
+    } else if (packageName.length < 3) {
+      document.getElementById('packageNameError').textContent = 'Package name must be at least 3 characters.';
+      valid = false;
+    }
+
+    // Description validation
+    if (!description) {
+      document.getElementById('descriptionError').textContent = 'Please provide a package description.';
+      valid = false;
+    } else if (description.length < 10) {
+      document.getElementById('descriptionError').textContent = 'Description must be at least 10 characters.';
+      valid = false;
+    }
+
+    // Amount validation
+    if (!amount || isNaN(amount) || amount <= 0) {
+      document.getElementById('amountError').textContent = 'Please enter a valid amount greater than zero.';
+      valid = false;
+    }
+
+    // Prevent form submission if validation fails
+    if (!valid) {
+      e.preventDefault();
+    }
+  });
+</script>
+
+{% include "Studio/footer.html" %}

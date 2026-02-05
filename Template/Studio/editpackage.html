@@ -1,0 +1,25 @@
+{% include "Studio/header.html" %}
+{% load static %}
+
+<div class="container mt-5" style="padding-left: 70px;">
+    <h2 class="text-center">Edit Package</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label>Package Name</label>
+            <input type="text" class="form-control" name="packagename" value="{{ package.packagename }}" required>
+        </div>
+        <div class="form-group">
+            <label>Description</label>
+            <textarea class="form-control" name="description" required>{{ package.description }}</textarea>
+        </div>
+        <div class="form-group">
+            <label>Amount</label>
+            <input type="number" class="form-control" name="amount" value="{{ package.amount }}" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Update</button>
+        <a href="{% url 'package_details_view' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+
+{% include "Studio/footer.html" %}

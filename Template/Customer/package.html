@@ -1,0 +1,129 @@
+{% include "Customer/header.html" %}
+{% load static %}
+<br><br>
+<!-- team_area -->
+<div class="photography_skill_area">
+    <div class="container">
+        <div class="section_title text-center">
+            <h3>Packages</h3>
+            <div class="team_area">
+                <div class="container">
+                    <div class="border_bottom">
+                        <div class="row">
+                            {% for p in package %}
+                            <div class="col-xl-4 col-lg-4 col-md-6">
+                                <div class="single_team package-card">
+                                    <div class="team_thumb">
+                                        <!-- You can include an image here if applicable -->
+                                    </div>
+                                    <div class="team_info text-center">
+                                        <h1 class="package-name">{{ p.packagename }}</h1>
+                                        <p class="package-description">{{ p.description }}</p>
+                                        <h6 class="package-amount">₹{{ p.amount }}</h6>
+                                        <!-- Optional button or link to more details -->
+                                        <a href="{% url 'packagesingleview' studio.studioid p.packageid %}" class="btn btn-primary mt-3">Book Now</a>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /team_area -->
+ <style>
+/* Container and grid styles */
+.photography_skill_area {
+    padding: 50px 0;
+    background-color: #f7f7f7;
+}
+
+.team_area .container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+/* Ensuring all package cards have the same size */
+.package-card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    text-align: center;
+    padding: 20px;
+    height: 100%; /* Makes all cards same height */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Ensures content is evenly spaced */
+}
+
+/* Setting a uniform height for all cards */
+.single_team {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Ensuring all text areas are aligned */
+.team_info {
+    padding: 15px;
+    flex-grow: 1; /* Makes sure all descriptions align */
+}
+
+.package-name {
+    font-size: 24px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.package-description {
+    font-size: 16px;
+    color: #777;
+    margin-bottom: 20px;
+    min-height: 60px; /* Ensures descriptions align properly */
+}
+
+.package-amount {
+    font-size: 18px;
+    font-weight: 600;
+    color: #0e0d0d;
+    margin-bottom: 20px;
+}
+
+/* Button alignment */
+.btn-primary {
+    background-color: #181817;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 16px;
+    margin-top: auto; /* Pushes button to bottom */
+}
+
+.btn-primary:hover {
+    background-color: #e65c00;
+}
+
+/* Responsive styles */
+@media (max-width: 767px) {
+    .team_area .container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .package-card {
+        width: 100%;
+        margin-bottom: 30px;
+    }
+}
+
+ </style>
+
+{% include "Customer/footer.html" %}

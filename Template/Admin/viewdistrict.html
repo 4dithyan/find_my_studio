@@ -1,0 +1,77 @@
+{% include "Admin/header.html" %}
+{% load static %}
+<style>
+    .btn-danger {
+      background-color: #dc3545 !important;  /* Red background color */
+      color: white !important;  /* White text */
+      border: none;  /* Remove border */
+    }
+  
+    /* Added styles to create spacing and margin adjustments */
+    .content-wrapper {
+      margin-left: 250px;  /* Adjust to the width of your sidebar */
+      padding: 20px;
+    }
+  
+    .form-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+  
+    .card {
+      width: 100%;  /* Allow the card to be responsive */
+      max-width: 700px;  /* Limit the card width */
+    }
+  </style>
+<main id="main" class="main content-wrapper">
+    <br><br><br>
+    <div class="form-container">
+        
+        <div class="col-lg-8 col-md-10">
+            
+            <div class="card shadow" style="width: 700px;">
+                <div class="card-body">
+                    <h5 class="card-title text-center">District Details</h5>
+
+                    <div class="table-responsive">
+
+                        <!-- Default Table -->
+                        <table class="table table-bordered table-striped text-center">
+                            <thead class="table-primary">
+                                <tr>
+                                    <th scope="col">Sl.No</th>
+                                    <th scope="col">District Name</th>
+                                    <th scope="col">Edit</th>
+                                    <th scope="col">Delete</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for d in district %}
+                                <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ d.districtname }}</td>
+                                    
+                                        <!-- Example action buttons (add actual actions as needed) -->
+                                        <!-- <button class="btn btn-warning btn-sm">Edit</button> -->
+                                        <td>
+                                            <a href="{% url 'editdistrict' districtid=d.districtid %}" 
+                                            class="btn btn-sm btn-primary"><i class="fa fa-pen">Edit</i></a>
+                                        </td> 
+                                        <td>
+                                            <a href="{% url 'deletedistrict' districtid=d.districtid %}" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete?')"><i class="fa fa-trash">Delete</i></a>
+                                        </td>                      
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div></div></div>
+
+{% include "Admin/footer.html" %}

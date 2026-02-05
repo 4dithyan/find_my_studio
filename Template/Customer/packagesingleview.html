@@ -1,0 +1,95 @@
+{% include "Customer/header.html" %}
+{% load static %}
+
+<!-- wild_photography  -->
+<br><br><br><br>
+<div class="wild_photography">
+    <div class="container-fluid p-0">
+        <div class="row no-gutters align-items-center">
+            <div class="col-lg-6">
+                <div class="wildlife_photo">
+                    <img src="{% static 'customer/img/photography/package1.jpg' %}" 
+                         alt="" 
+                         style="height: 750px; width: 700px;">
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <form action="{% url 'bookingprocess' package.packageid %}" method="post" onsubmit="return validateDate()">
+                    {% csrf_token %}
+                    <div class="section_title">
+                        <h3>{{package.packagename}}</h3>
+                        <h4>Category: {{package.category_id.categoryname}}</h4>
+                        <p>{{package.description}}</p>
+                        <h4>Amount: ₹{{package.amount}}</h4><br>
+
+                        <!-- Required Date -->
+                        <h4>Required Date</h4>
+                        <input type="date" name="reqdate" id="reqdate" required>
+
+                        <h4>No Of Days</h4>
+                        <input type="number" name="noofdays" min="1" required>
+
+                        <h4>Description</h4>
+                        <textarea name="description" rows="5" cols="50" required></textarea>
+
+                        <br>
+                        <button type="submit" class="btn btn-dark">Book Now</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<br>
+
+<script>
+    // Set minimum date to today
+    document.addEventListener("DOMContentLoaded", function() {
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById("reqdate").setAttribute("min", today);
+    });
+
+    // Additional check to ensure valid date (if user manipulates HTML)
+    function validateDate() {
+        const reqDate = document.getElementById("reqdate").value;
+        const today = new Date().toISOString().split('T')[0];
+        
+        if (reqDate < today) {
+            alert("Please select a valid date. Past dates are not allowed.");
+            return false;
+        }
+        return true;
+    }
+</script>
+
+<style>
+    .section_title input[type="date"],
+    .section_title input[type="number"],
+    .section_title textarea {
+        width: 100%;
+        max-width: 400px;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+    .btn-dark {
+        width: 100%;
+        max-width: 400px;
+        background-color: #343a40;
+        color: #fff;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    .btn-dark:hover {
+        background-color: #23272b;
+    }
+</style>
+
+<!-- /wild_photography -->
+{% include "Customer/footer.html" %}

@@ -1,0 +1,96 @@
+{% load static %}
+{% include "Admin/header.html" %}
+
+<style>
+    label {
+        color: black;
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    /* Centering container */
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 80vh;
+    }
+
+    /* Card (form) styling */
+    .card {
+        width: 50%; /* Adjusted for admin template */
+        padding: 30px;
+        margin: 0 auto;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+        border-radius: 10px;
+        background: #fff;
+    }
+
+    .card-body {
+        font-family: 'Arial', sans-serif;
+    }
+
+    /* Input field styling */
+    .form-control {
+        font-size: 18px;
+        padding: 12px 15px;
+        width: 100%;
+        border-radius: 6px;
+    }
+
+    /* Button styling */
+    .btn-primary, .btn-light {
+        font-size: 18px;
+        padding: 12px 25px;
+        border-radius: 6px;
+    }
+
+    .card-title {
+        font-size: 24px;
+        font-weight: bold;
+        color: #343a40;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .form-group {
+        margin-bottom: 25px;
+    }
+
+    /* Responsive design */
+    @media (max-width: 768px) {
+        .card {
+            width: 90%;
+            padding: 25px;
+        }
+    }
+</style>
+
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+            <h3 class="card-title">Edit Location</h3>
+
+            <!-- Form for editing district -->
+            <form action="{% url 'editlocation' c.locationid %}" method="post">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label for="districtname">District Name</label>
+                    <input type="text" class="form-control" id="districtname" placeholder="Enter District Name" name="districtname" required value="{{ c.districtid.districtname }}">
+                </div>
+                <div class="form-group">
+                    <label for="districtname">Location Name</label>
+                    <input type="text" class="form-control" id="locationname" placeholder="Enter District Name" name="locationname" required value="{{ c.locationname }}">
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="reset" class="btn btn-light">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% include "Admin/footer.html" %}

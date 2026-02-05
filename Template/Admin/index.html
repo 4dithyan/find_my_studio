@@ -1,0 +1,61 @@
+{% load static %}
+{% include 'Admin/header.html' %}
+
+<div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 50px; margin: 20px;">
+    
+    <!-- 🔹 Payments per Studio (Pie Chart - No Grid) -->
+    <div style="width: 35%; margin-top: 100px; margin-left: 90px;">
+        <h4 style="text-align: center;">Payments per Studio (Pie Chart)</h4>
+        <canvas id="studio-pie-chart"></canvas>
+    </div>
+
+    <!-- 🔹 Payments per Category (Pie Chart - No Grid) -->
+    <div style="width: 35%; margin-top: 100px;">
+        <h4 style="text-align: center;">Payments per Category (Pie Chart)</h4>
+        <canvas id="category-pie-chart"></canvas>
+    </div>
+
+    <!-- 🔹 Total Amount Gained by Studios (Bar Graph) -->
+    <div style="width: 60%;">
+        <h4 style="text-align: center;">Total Amount Gained by Studios (Bar Graph)</h4>
+        <canvas id="studio-amount-bar-chart"></canvas>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+<script>
+    function createChart(chartId, chartType, labels, data, labelName, colors, showGrid = true) {
+        var ctx = document.getElementById(chartId).getContext('2d');
+        new Chart(ctx, {
+            type: chartType,
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: labelName,
+                    data: data,
+                    backgroundColor: colors,
+                    borderColor: colors,
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: chartType === 'bar' ? {
+                    yAxes: [{
+                        ticks: { beginAtZero: true },
+                        gridLines: { display: showGrid }
+                    }]
+                } : {}
+            }
+        });
+    }
+
+    // 🚀 Load Charts After Page Load
+    window.onload = function() {
+        createChart('studio-pie-chart', 'pie', {{ studio_labels|safe }}, {{ studio_data|safe }}, 'Payments', ['red', 'blue', 'green', 'yellow', 'purple'], false);
+        createChart('category-pie-chart', 'pie', {{ category_labels|safe }}, {{ category_data|safe }}, 'Payments', ['yellow', 'green', 'blue', 'purple', 'orange'], false);
+        createChart('studio-amount-bar-chart', 'bar', {{ studio_amount_labels|safe }}, {{ studio_amount_data|safe }}, 'Total Amount (₹)', 'rgba(153, 102, 255, 0.6)', true);
+    };
+</script>
+</div>
+{% include 'Admin/footer.html' %}

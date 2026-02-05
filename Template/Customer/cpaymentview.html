@@ -1,0 +1,76 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Details</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+        }
+        .wrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .content {
+            flex: 1; /* Pushes the footer down */
+        }
+        .footer {
+            background-color: #343a40;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<div class="wrapper">
+    {% include 'Customer/header.html' %}
+
+    <div class="content">
+        <br><br><br>
+        <div class="container mt-5">
+            <h2 class="text-center mb-4">Payment Details</h2>
+            <table class="table table-bordered table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Sl.No</th>
+                        <th>Additional Amount</th>
+                        <th>Initial Amount</th>
+                        <th>Total Amount</th>
+                        <th>Status</th>
+                        <th>Payment Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for payment in payments %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>₹{{payment.requestid.aamount}}</td>
+                        <td>₹{{ payment.iamount }}</td>
+                        <td>₹{{ payment.tamount }}</td>
+                        <td>{{ payment.status }}</td>
+                        <td>{{ payment.paymentdate }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" class="text-center">No payment records found.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    {% include 'Customer/footer.html' %}
+</div>
+
+</body>
+</html>

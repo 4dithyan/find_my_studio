@@ -1,0 +1,43 @@
+{% include "Studio/header.html" %}
+{% load static %}
+
+<div class="container mt-5" style="padding-left: 70px;">
+    <h2 class="text-center">Edit Work Images</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <label>Image 1</label>
+            <img src="{{work_image.image1.url}}" style="width: 100px;height: 100px;">
+            <input type="file" class="form-control" name="image1">
+        </div>
+        <div class="form-group">
+            <label>Image 2</label>
+            <img src="{{work_image.image2.url}}" style="width: 100px;height: 100px;">
+            <input type="file" class="form-control" name="image2">
+        </div>
+        <div class="form-group">
+            <label>Image 3</label>
+            <img src="{{work_image.image3.url}}" style="width: 100px;height: 100px;">
+            <input type="file" class="form-control" name="image3">
+        </div>
+        <div class="form-group">
+            <label>Image 4</label>
+            <img src="{{work_image.image4.url}}" style="width: 100px;height: 100px;">
+            <input type="file" class="form-control" name="image4">
+        </div>
+        <div class="form-group">
+            <label>Image 5</label>
+            <img src="{{work_image.image5.url}}" style="width: 100px;height: 100px;">
+            <input type="file" class="form-control" name="image5">
+        </div>
+        <div class="form-group">
+            <label>Image 6</label>
+            <img src="{{work_image.image6.url}}" style="width: 100px;height: 100px;">
+            <input type="file" class="form-control" name="image6">
+        </div>
+        <button type="submit" class="btn btn-primary">Update</button>
+        <a href="{% url 'workimage' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+
+{% include "Studio/footer.html" %}

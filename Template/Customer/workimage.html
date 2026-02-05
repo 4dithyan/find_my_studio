@@ -1,0 +1,213 @@
+{% include "Customer/header.html" %}
+{% load static %}
+
+<!-- gallery_area -->
+<div class="gallery_area baby_gallery_wrap">
+    <div class="container">
+        <div class="row justify-content-between">
+            <!-- Back Arrow (Left end) -->
+            <div class="col-xl-1 col-lg-1" style="left: -170px;">
+                <a href="javascript:history.back()" class="btn btn-light">
+                    <i class="fa fa-arrow-left"></i> 
+                </a>
+            </div>
+            <div class="col-xl-7 col-lg-7">
+                <div class="section_title text-center mb-50">
+                    <h3 style="text-align: right; left: -60px;">{{work.workname}}</h3>
+                </div>
+            </div>
+            <!-- View Packages Button (Right end) -->
+            <div class="col-xl-4 col-lg-4 text-right" style="right: -150px;">
+                <div class="d-flex justify-content-end">
+                    <a href="{% url 'package' studioid=studio.studioid categoryid=category.categoryid %}">
+                        <button type="submit" class="btn btn-primary">View Packages</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid p-0">
+        <div class="row no-gutters">
+            <!-- Display main image (one at a time) -->
+            <div class="col-12">
+                <div class="main-image-container" style="position: relative;">
+                    <img src="{{ workimage.0.image1.url }}" alt="Main Image" class="main-gallery-img" id="mainImage">
+                    <!-- Previous Arrow -->
+                    <button class="arrow-buttons prev-arrow" onclick="prevImage()" style="margin-left: 300px;">
+                        <i class="fa fa-chevron-left"></i>
+                    </button>
+                    <!-- Next Arrow -->
+                    <button class="arrow-buttons next-arrow" onclick="nextImage()" style="margin-right: 300px;">
+                        <i class="fa fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row no-gutters">
+            <!-- Gallery Thumbnails Section -->
+            <div class="col-12">
+                <div class="gallery-thumbnails-container">
+                    <div class="thumbnail-scroll">
+                        {% for w in workimage %}
+                            <div class="thumbnail-item">
+                                <img src="{{ w.image1.url }}" alt="Thumbnail" class="thumbnail-img">
+                            </div>
+                            <div class="thumbnail-item">
+                                <img src="{{ w.image2.url }}" alt="Thumbnail" class="thumbnail-img">
+                            </div>
+                            <div class="thumbnail-item">
+                                <img src="{{ w.image3.url }}" alt="Thumbnail" class="thumbnail-img">
+                            </div>
+                            <div class="thumbnail-item">
+                                <img src="{{ w.image4.url }}" alt="Thumbnail" class="thumbnail-img">
+                            </div>
+                            <div class="thumbnail-item">
+                                <img src="{{ w.image5.url }}" alt="Thumbnail" class="thumbnail-img">
+                            </div>
+                            <div class="thumbnail-item">
+                                <img src="{{ w.image6.url }}" alt="Thumbnail" class="thumbnail-img">
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<br><br><br><br><br><br><br><br>
+<div class="footer">
+    {% include "Customer/footer.html" %}
+</div>
+
+<!-- Include FontAwesome CDN for the arrow -->
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
+<style>
+    /* Ensure the main gallery image is displayed fully and covers the area */
+    .main-image-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 500px; /* Adjust this based on desired height */
+        overflow: hidden;
+        position: relative; /* Ensures the arrows are placed inside the container */
+    }
+
+    .main-gallery-img {
+        width: auto;
+        height: 100%;  /* This will allow the image to scale properly */
+        object-fit: contain;  /* Ensure the whole image is visible */
+        transition: transform 0.3s ease; /* Smooth scroll transition */
+    }
+
+    /* Adding a scroll effect */
+    .scroll-effect {
+        transform: scale(1.1); /* Slight zoom effect to give the illusion of scrolling */
+    }
+
+    /* Gallery Thumbnails Section */
+    .gallery-thumbnails-container {
+        overflow-x: auto;
+        white-space: nowrap;
+        padding-top: 20px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .thumbnail-scroll {
+        display: flex;
+        gap: 10px;
+    }
+
+    .thumbnail-item {
+        width: 120px;
+        height: 100px;
+        overflow: hidden;
+    }
+
+    .thumbnail-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        cursor: pointer;
+    }
+
+    /* Style for the previous and next arrows */
+    .arrow-buttons {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%); /* Center the arrows vertically */
+        z-index: 10;
+        font-size: 10px;
+        color: white;
+        background-color: rgba(0, 0, 0, 0.5);
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+    }
+
+    /* Position for the left (previous) arrow */
+    .prev-arrow {
+        left: 10px; /* Position it slightly inside from the left */
+    }
+
+    /* Position for the right (next) arrow */
+    .next-arrow {
+        right: 10px; /* Position it slightly inside from the right */
+    }
+</style>
+
+<script>
+    // JavaScript to change the main image when a thumbnail is clicked with scroll animation
+    const images = [
+        {% for w in workimage %}
+            "{{ w.image1.url }}",
+            "{{ w.image2.url }}",
+            "{{ w.image3.url }}",
+            "{{ w.image4.url }}",
+            "{{ w.image5.url }}",
+            "{{ w.image6.url }}",
+        {% endfor %}
+    ];
+
+    let currentIndex = 0;
+
+    // Function to update the main image
+    function updateMainImage(index) {
+        const mainImage = document.getElementById('mainImage');
+        mainImage.classList.add('scroll-effect');
+        mainImage.src = images[index];
+        setTimeout(() => {
+            mainImage.classList.remove('scroll-effect');
+        }, 300);
+    }
+
+    // Function to go to the next image
+    function nextImage() {
+        currentIndex = (currentIndex + 1) % images.length;
+        updateMainImage(currentIndex);
+    }
+
+    // Function to go to the previous image
+    function prevImage() {
+        currentIndex = (currentIndex - 1 + images.length) % images.length;
+        updateMainImage(currentIndex);
+    }
+
+    // Event listeners for the arrow buttons
+    document.querySelector('.next-arrow').addEventListener('click', nextImage);
+    document.querySelector('.prev-arrow').addEventListener('click', prevImage);
+
+    // JavaScript to change the main image when a thumbnail is clicked
+    document.querySelectorAll('.thumbnail-img').forEach((item, index) => {
+        item.addEventListener('click', () => {
+            currentIndex = index;
+            updateMainImage(currentIndex);
+        });
+    });
+</script>

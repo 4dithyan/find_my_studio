@@ -1,0 +1,43 @@
+{% include "Customer/header.html" %}
+{% load static %}
+    <!-- slider_area_start -->
+    <div class="slider_area">
+        <div class="slider_active owl-carousel">
+            <div class="single_slider  d-flex align-items-center slider_bg_1 black_overlay">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-xl-12 col-md-12">
+                            <div class="slider_text text-center ">
+                                <h3 class="wow fadeInDown" data-wow-duration="1s" data-wow-delay=".1s" >Welcome To Find My Studio<br>
+                                    We Make Studio Hunting Simple!  </h3>
+                                <div class="video_service_btn wow fadeInDown" data-wow-duration="1s" data-wow-delay=".1s">
+                                    <a href="{% url 'studioview' %}" class="boxed-btn3">Find my Studio</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><br>
+    <!-- slider_area_end -->
+    <div class="wild_photography">
+        <div class="container-fluid p-0">
+            <div class="row no-gutters align-items-center ">
+                <div class="col-lg-6">
+                    <div class="wildlife_photo">
+                        <img src="{% static 'customer/img/photography/banner5.jpg' %}" alt=""style="height: 600px;width: 500px;">
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="section_title">
+                        <h3>Find My Studio</h3>
+                        <p>Find My Studio makes discovering and booking photography studios across Kerala simple and hassle-free.<br>With our platform, you can easily browse detailed studio profiles, view amenities, pricing, and check real-time availability — all in one place.<br>Our advanced search filters help you find studios that match your location and specific needs.<br>Plus, our secure online payment system ensures safe and convenient transactions.Explore now and make your day coluorfull!<br></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+ 
+    {% include "Customer/footer.html" %}

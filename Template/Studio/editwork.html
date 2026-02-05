@@ -1,0 +1,21 @@
+{% include "Studio/header.html" %}
+{% load static %}
+
+<div class="container mt-5" style="padding-left: 70px;">
+    <h2 class="text-center">Edit Work</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label>Work Name</label>
+            <input type="text" class="form-control" name="workname" value="{{ work.workname }}" required>
+        </div>
+        <div class="form-group">
+            <label>Description</label>
+            <textarea class="form-control" name="description" required>{{ work.description }}</textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Update</button>
+        <a href="{% url 'workdetails' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+
+{% include "Studio/footer.html" %}

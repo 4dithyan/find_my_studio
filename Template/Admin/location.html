@@ -1,0 +1,62 @@
+{% load static %}
+{% include "Admin/header.html" %}
+<div id="layoutSidenav_content">
+    <main>
+        <br><br><br>
+        <div class="container-fluid px-4">
+            <h3 class="mt-4">Location Registration</h3>
+            <br>
+            <div class="row">
+                <div class="col-8">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <form id="locationForm" action="{% url 'location_process' %}" method="post">
+                                {% csrf_token %}
+
+                                <div class="form-group">
+                                    <label for="districtid">District</label>
+                                    <select class="form-control" id="districtid" name="districtid" required>
+                                        <option value="">--Select District--</option>
+                                        {% for d in district %}
+                                        <option value="{{d.districtid}}">{{d.districtname}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <br>
+                                <div class="form-group">
+                                    <label for="locationname">Location</label>
+                                    <input type="text" class="form-control" id="locationname" placeholder="Location" name="locationname" required>
+                                </div>
+                                <br>
+                                <button type="submit" class="btn btn-primary mr-2">Add</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    {% include "Admin/footer.html" %}
+</div>
+
+<script>
+    document.getElementById('locationForm').addEventListener('submit', function(event) {
+        const district = document.getElementById('districtid').value.trim();
+        const locationName = document.getElementById('locationname').value.trim();
+
+        if (!district) {
+            alert('Please select a District.');
+            event.preventDefault();
+            return;
+        }
+
+        if (!locationName) {
+            alert('Please enter a Location name.');
+            event.preventDefault();
+            return;
+        } else if (!/^[a-zA-Z\s]+$/.test(locationName)) {
+            alert('Location Name should only contain letters and spaces.');
+            event.preventDefault();
+        }
+    });
+</script>

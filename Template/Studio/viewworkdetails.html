@@ -1,0 +1,45 @@
+{% include "Studio/header.html" %}
+{% load static %}
+
+<div class="container mt-5" style="padding-left: 50px;">
+    <h2 class="text-center">Work Details</h2>
+    <table class="table table-bordered mt-3">
+        <thead class="thead-dark">
+            <tr>
+                <th>Sl.No</th>
+                <th>Category</th>
+                <th>Work Name</th>
+                <th>Description</th>
+                <th>Image</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for work in works %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ work.category_id.categoryname }}</td>
+                <td>{{ work.workname }}</td>
+                <td>{{ work.description }}</td>
+                <td><img src="{{ work.workimg.url }}" style="height: 100px;width: 100px;"></td>
+                <td>
+                    <a href="{% url 'edit_work' work.workid %}" class="btn btn-warning btn-sm">Edit</a>
+                </td>
+                <td>
+                    <a href="{% url 'delete_work' work.workid %}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this work?');">Delete</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6" class="text-center">No work details found.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<!-- Push footer to the bottom -->
+<div style="position: absolute; bottom: 0; width: 100%;">
+    {% include "Studio/footer.html" %}
+</div>

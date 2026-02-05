@@ -1,0 +1,87 @@
+{% include "Customer/header.html" %}
+{% load static %}
+
+<!-- gallery_area -->
+<div class="gallery_area main-content">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-7 col-lg-7">
+                <div class="section_title text-center mb-50">
+                    <div class="col-xl-4 col-lg-4 text-right" style="right: -850px;">
+                        <a href="{% url 'package' studioid=studio.studioid categoryid=category.categoryid %}">
+                            <button type="submit" class="btn btn-primary">View Packages</button>
+                        </a>
+                    </div>
+                    <!-- Heading and button in the same container -->
+                    <div class="d-flex justify-content-between align-items-center">
+                        
+                        <h3>You can  view our works here</h3>
+                        
+                    </div>
+                    <p></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid p-0">
+        <div class="row no-gutters">
+            {% for w in work %}
+            <div class="col-xl-3 col-md-3 mb-3">
+                <div class="single_photography">
+                    <div class="thumb">
+                        <img src="{{w.workimg.url}}" style="width: auto;height: 400px;padding-left: 50px;">
+                    </div>
+                    <a href="{% url 'workimage' studioid=studio.studioid categoryid=category.categoryid workid=w.workid %}" class="hover">
+                        <div class="hover_inner">
+                            <h3>{{ w.workname }}</h3>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+<!-- /gallery_area -->
+
+<style>
+    /* Ensure the page takes full height and pushes the footer to the bottom */
+    html, body {
+        height: 100%; /* Make the body take full height */
+        margin: 0; /* Remove default margin */
+        display: flex;
+        flex-direction: column;
+    }
+
+    .main-content {
+        flex: 1; /* Allow content to take up available space */
+    }
+
+    .work_name {
+        background-color: rgba(0, 0, 0, 0.6); /* Simple background color with transparency */
+        color: #fff; /* Text color for better visibility */
+        padding: 10px; /* Some padding around the text */
+        border-radius: 5px; /* Rounded corners */
+        font-size: 20px; /* Adjust font size */
+        text-align: center; /* Center align the text */
+        margin: 0 auto; /* Center the background */
+        width: 70%; /* Adjust the width as per your requirement */
+        position: relative; /* Position relative for potential future adjustments */
+    }
+
+    .single_photography .thumb {
+        position: relative; /* Ensures the text is positioned over the image */
+    }
+
+    /* Optional: If you want to add a slight shadow effect */
+    .work_name {
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Footer Styling to Ensure it Sticks at the Bottom */
+    footer {
+        margin-top: auto; /* Push the footer to the bottom */
+    }
+</style>
+
+{% include "Customer/footer.html" %}
