@@ -104,6 +104,3 @@ For support or inquiries, contact:
 - Email: mailforadithyan@gmail.com
 - Phone: 9778238064
 
-## License
-
-This project is licensed under the MIT License.
